@@ -1,12 +1,10 @@
 import Board
 import Pieces
-
+from Board import pprint
 
 
 
 
 mainBoard = Board.init()
 
-for row in mainBoard:
-    for piece in row:
-        print piece
+pprint(mainBoard)
