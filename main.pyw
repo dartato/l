@@ -27,9 +27,9 @@ class main:
         #how to move a piece:
         piece = self.mainBoard[y1][x1]
         #move the piece internally (this will throw an error if piece cannot be moved there)
-        self.mainBoard.movePiece((y1,x1), (y2,x2))
-        #move the piece on the gui
-        self.gui_b.b_canvas.coords(self.PIECES[piece], (self.gui_b.sidel/2+self.gui_b.sidel*x2,self.gui_b.sidel/2+self.gui_b.sidel*y2))
+        if self.mainBoard.movePiece((y1,x1), (y2,x2)):
+            #move the piece on the gui
+            self.gui_b.b_canvas.coords(self.PIECES[piece], (self.gui_b.sidel/2+self.gui_b.sidel*x2,self.gui_b.sidel/2+self.gui_b.sidel*y2))
     def updateBoard(self):
         #get the contents of the move box
         move = self.gui_b.entryBox.get()
