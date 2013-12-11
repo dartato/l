@@ -10,7 +10,7 @@ class board(matrix):
         matrix.__init__(self, cols, rows)
     def movePiece(self, (x1,y1), (x2,y2), newtype=False):
         if self[x2][y2]:
-            return "Error: target square occupied"
+            return False
         if newtype:
             self[x2][y2] = newtype
             self[x1][y1].pos = x2,y2
@@ -18,6 +18,7 @@ class board(matrix):
             self[x2][y2] = self[x1][y1]
             self[x1][y1].pos = x2,y2
         self[x1][y1] = None
+        return True
 def pprint(board_obj):
     print " |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  | 10  | 11  "
     for i, row in enumerate(board_obj):
