@@ -1,10 +1,12 @@
 from Tkinter import *
-#from PIL import Image, ImageTk
-#tstimage = Image.open("Chess_Sprites.png")
 
-test = Tk()
-tstimage = PhotoImage(file="pawn.gif")
-label = Label(test,image = tstimage)
+master = Tk()
 
-label.pack()
+w = Canvas(master, width=400, height=400)
+w.pack()
+test_img = PhotoImage(file="pawn.gif")
+w.create_image(200,200,image=test_img)
+
+
+
 mainloop()

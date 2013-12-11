@@ -8,4 +8,4 @@ import gui
 mainBoard = Board.init()
 pprint(mainBoard)
 
-b = gui.GUIBoard(12,8,name="Latrine Something")
+gui_b = gui.GUIBoard(mainBoard.cols,mainBoard.rows,name="Latrine Something")
