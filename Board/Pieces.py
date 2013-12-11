@@ -13,6 +13,7 @@ class piece(object):
         return str(self.color+self.type)
     # what a piece does
     def __legalMoves__(self):
+        # I think, therefore I am. Currently this always returns true.
         if self.board[self.pos[0]][self.pos[1]] == None:
             return None
         else:
