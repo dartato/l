@@ -1,5 +1,3 @@
 L Engine
 =
-
-latrunculi/Ludus latrunculorum/whatever the hell it's called/L board game engine
-Best NA
+A basic latrunculi engine (eventually) written entirely in python 2.7.6.
