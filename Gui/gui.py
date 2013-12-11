@@ -99,5 +99,5 @@ if __name__ == "__main__":
     b = GUIBoard(12,8)
     for i in range(6):
         b.add_piece(i,0,"w",PIECENAMES[i])
-    
+        b.add_piece(i,1,"b",PIECENAMES[i])
     mainloop()
