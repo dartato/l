@@ -33,9 +33,18 @@ class main:
     def updateBoard(self):
         #get the contents of the move box
         move = self.gui_b.entryBox.get()
-        #test what the move is (more will be added soon)
+        #format is initial x,initial y,final x,final y
+        i_x = int(move[0])
+        i_y = int(move[2])
+        f_x = int(move[4])
+        f_y = int(move[6])
+        print(i_x,i_y,f_x,f_y)
+        
         if move == "dank":
             self.movePiece((0,0),(0,1))
+        else:
+            self.movePiece((i_x,i_y),(f_x,f_y))
+        Board.pprint(self.mainBoard)
         #clear the text box
         self.gui_b.entryBox.delete(0,'end')
         
