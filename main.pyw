@@ -25,9 +25,9 @@ class main:
         self.gui_b.mainloop()
     def movePiece(self, (x1,y1), (x2,y2)):
         #how to move a piece:
-        piece = self.mainBoard[x1][y1]
+        piece = self.mainBoard[y1][x1]
         #move the piece internally (this will throw an error if piece cannot be moved there)
-        self.mainBoard.movePiece((x1,y1), (x2,y2))
+        self.mainBoard.movePiece((y1,x1), (y2,x2))
         #move the piece on the gui
         self.gui_b.b_canvas.coords(self.PIECES[piece], (self.gui_b.sidel/2+self.gui_b.sidel*x2,self.gui_b.sidel/2+self.gui_b.sidel*y2))
     def updateBoard(self):
@@ -43,7 +43,7 @@ class main:
         if move == "dank":
             self.movePiece((0,0),(0,1))
         else:
-            self.movePiece((i_y,i_x),(f_x,f_y))
+            self.movePiece((i_x,i_y),(f_x,f_y))
         Board.pprint(self.mainBoard)
         #clear the text box
         self.gui_b.entryBox.delete(0,'end')
