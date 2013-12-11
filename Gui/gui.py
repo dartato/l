@@ -86,6 +86,7 @@ class GUIBoard(Tk):
         x_coord = self.sidel/2 + self.sidel*x
         y_coord = self.sidel/2 + self.sidel*y
         self.b_canvas.create_image(x_coord,y_coord,image=img_file)
+        self.b_canvas.update_idletasks()
         
     def draw_pieces(self):
         for row in rows:
