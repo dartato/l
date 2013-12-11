@@ -11,6 +11,12 @@ class GUIBoard(Tk):
         self.b_width,self.b_height = b_width,b_height
         self.get_dims(),self.draw_board()
         self.assign_images()
+
+        #create entry box for inputting moves
+        self.entryBox = Entry(self)
+        self.entryBox.pack()
+
+        
         
         
     def get_dims(self):
@@ -32,7 +38,7 @@ class GUIBoard(Tk):
                 colorcounter += 1
             for row in range(self.b_height):
                 if colorcounter%2 == 0:
-                    self.b_canvas.create_rectangle(column*self.sidel,row*self.sidel,(column+1)*self.sidel,(row+1)*self.sidel,fill="black")
+                    self.b_canvas.create_rectangle(column*self.sidel,row*self.sidel,(column+1)*self.sidel,(row+1)*self.sidel,fill="gray")
                 colorcounter += 1
     def assign_images(self):
         self.wpawn_img = PhotoImage(file="wpawn.gif")
@@ -85,8 +91,8 @@ class GUIBoard(Tk):
         img_file = self.get_piece_img(color,name)        
         x_coord = self.sidel/2 + self.sidel*x
         y_coord = self.sidel/2 + self.sidel*y
-        self.b_canvas.create_image(x_coord,y_coord,image=img_file)
-        self.b_canvas.update_idletasks()
+        return self.b_canvas.create_image(x_coord,y_coord,image=img_file)
+        
         
     def draw_pieces(self):
         for row in rows:
