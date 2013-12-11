@@ -96,9 +96,4 @@ class GUIBoard(Tk):
 if __name__ == "__main__":
     #testing recent additions
     b = GUIBoard(12,8)
-    
-    #trying to test all pieces, not sure why glitches out on the black pieces
-    #for i in range(6):
-        #b.add_piece(i,0,"w",PIECENAMES[i])
-        #b.add_piece(i,4,"b",PIECENAMES[i])
     mainloop()
