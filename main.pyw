@@ -43,7 +43,7 @@ class main:
         if move == "dank":
             self.movePiece((0,0),(0,1))
         else:
-            self.movePiece((i_x,i_y),(f_x,f_y))
+            self.movePiece((i_y,i_x),(f_x,f_y))
         Board.pprint(self.mainBoard)
         #clear the text box
         self.gui_b.entryBox.delete(0,'end')
