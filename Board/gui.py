@@ -33,5 +33,10 @@ class GUIBoard(Tk):
                 colorcounter += 1    
         self.b_canvas.pack()
 
+    def draw_pieces(self):
+        for row in rows:
+            for piece in row:
+                if piece.pos == (row, piece):
+                    pass
 
-b = GUIBoard(12,8,name="Latrine Something")
+
