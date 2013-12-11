@@ -1,7 +1,7 @@
-import Board
-import Pieces
-from Board import pprint
-import gui
+import Board.Board as Board
+import Board.Pieces as Pieces
+from Board.Board import pprint
+import Gui.gui as gui
 
 
 

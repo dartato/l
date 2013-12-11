@@ -11,6 +11,7 @@ class GUIBoard(Tk):
         self.b_width,self.b_height = b_width,b_height
         self.get_dims(),self.draw_board()
         self.assign_images()
+        mainloop()
         
     def get_dims(self):
         temp_gui_width = self.winfo_screenwidth()*1/2
@@ -100,7 +101,4 @@ if __name__ == "__main__":
     #for i in range(6):
         #b.add_piece(i,0,"w",PIECENAMES[i])
         #b.add_piece(i,4,"b",PIECENAMES[i])
-
-        
-    
-mainloop()
+    mainloop()
