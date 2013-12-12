@@ -96,7 +96,8 @@ class GUIBoard(Tk):
     def hl_square(self,x,y):
         self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill="red",stipple="gray25")
    
-
+    def movePiece(self, piece, (x,y)):
+        self.b_canvas.coords(piece, (self.sidel/2+self.sidel*x,self.sidel/2+self.sidel*y))
 if __name__ == "__main__":
     #testing recent additions
     b = GUIBoard(12,8)
