@@ -94,7 +94,7 @@ class GUIBoard(Tk):
         return self.b_canvas.create_image(x_coord,y_coord,image=img_file)
         
     def hl_square(self,x,y):
-        self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill="blue")
+        self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill="red",stipple="gray25")
    
 
 if __name__ == "__main__":
@@ -104,5 +104,7 @@ if __name__ == "__main__":
         b.add_piece(i,0,"w",PIECENAMES[i])
         b.add_piece(i,1,"b",PIECENAMES[i])
     b.hl_square(0,0)
+    b.hl_square(0,1)
+    b.hl_square(1,0)
     mainloop()
 
