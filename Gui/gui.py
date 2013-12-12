@@ -8,17 +8,14 @@ class GUIBoard(Tk):
     def __init__(self,b_width,b_height,name="Checker Board"):
         Tk.__init__(self)
         self.wm_title(name),self.resizable(0,0)
+        self.hl_squares = []
         self.b_width,self.b_height = b_width,b_height
-        self.get_dims(),self.draw_board()
+        self.get_dims()
+        self.draw_board()
         self.assign_images()
 
-        #create entry box for inputting moves
-        self.entryBox = Entry(self)
-        self.entryBox.pack()
+        
 
-        
-        
-        
     def get_dims(self):
         temp_gui_width = self.winfo_screenwidth()*1/2
         temp_gui_height = self.winfo_screenheight()*2/3
@@ -28,6 +25,7 @@ class GUIBoard(Tk):
         self.sidel = min(h_sidel,v_sidel)
         #final dimensions
         self.gui_height,self.gui_width = self.sidel*self.b_height,self.sidel*self.b_width
+        
         
     def draw_board(self): 
         self.b_canvas = Canvas(self, width=self.gui_width, height=self.gui_height)
@@ -40,6 +38,9 @@ class GUIBoard(Tk):
                 if colorcounter%2 == 0:
                     self.b_canvas.create_rectangle(column*self.sidel,row*self.sidel,(column+1)*self.sidel,(row+1)*self.sidel,fill="gray")
                 colorcounter += 1
+        self.entryBox = Entry(self)
+        self.entryBox.pack()
+        
     def assign_images(self):
         self.wpawn_img = PhotoImage(file="wpawn.gif")
         self.wbishop_img = PhotoImage(file="wbishop.gif")
@@ -94,18 +95,28 @@ class GUIBoard(Tk):
         return self.b_canvas.create_image(x_coord,y_coord,image=img_file)
         
     def hl_square(self,x,y):
-        self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill="red",stipple="gray25")
-   
+        self.hl_squares.append(self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill="red",stipple="gray25"))
+        #fer dank in range(dayz)
     def movePiece(self, piece, (x,y)):
         self.b_canvas.coords(piece, (self.sidel/2+self.sidel*x,self.sidel/2+self.sidel*y))
+
+    def hl_squares(self,squares_list):
+        pass
+                   
+    def del_hl_squares(self):
+        for square in range(len(self.hl_squares)):
+            self.b_canvas.delete(self.hl_squares.pop())
+
+
+            
 if __name__ == "__main__":
     #testing recent additions
     b = GUIBoard(12,8)
     for i in range(6):
         b.add_piece(i,0,"w",PIECENAMES[i])
         b.add_piece(i,1,"b",PIECENAMES[i])
-    b.hl_square(0,0)
-    b.hl_square(0,1)
-    b.hl_square(1,0)
+    
+    b.del_hl_squares()
+    print b.hl_squares
     mainloop()
 
