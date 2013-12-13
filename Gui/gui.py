@@ -13,10 +13,6 @@ class GUIBoard(Tk):
         self.get_dims()
         self.draw_board()
         self.assign_images()
-
-    def get_click(self,click):
-        print click.x,click.y
-        #self.hl_square(
         
     def get_dims(self):
         temp_gui_width = self.winfo_screenwidth()*1/2
@@ -31,7 +27,6 @@ class GUIBoard(Tk):
         
     def draw_board(self): 
         self.b_canvas = Canvas(self, width=self.gui_width, height=self.gui_height)
-        self.b_canvas.bind("<Button-1>",self.get_click)
         self.b_canvas.pack()
         colorcounter=0
         for column in range(self.b_width): 
