@@ -8,14 +8,16 @@ class GUIBoard(Tk):
     def __init__(self,b_width,b_height,name="Checker Board"):
         Tk.__init__(self)
         self.wm_title(name),self.resizable(0,0)
-        self.hl_squares = []
+        self.hl_list = []
         self.b_width,self.b_height = b_width,b_height
         self.get_dims()
         self.draw_board()
         self.assign_images()
 
+    def get_click(self,click):
+        print click.x,click.y
+        #self.hl_square(
         
-
     def get_dims(self):
         temp_gui_width = self.winfo_screenwidth()*1/2
         temp_gui_height = self.winfo_screenheight()*2/3
@@ -29,6 +31,7 @@ class GUIBoard(Tk):
         
     def draw_board(self): 
         self.b_canvas = Canvas(self, width=self.gui_width, height=self.gui_height)
+        self.b_canvas.bind("<Button-1>",self.get_click)
         self.b_canvas.pack()
         colorcounter=0
         for column in range(self.b_width): 
@@ -94,8 +97,8 @@ class GUIBoard(Tk):
         y_coord = self.sidel/2 + self.sidel*y
         return self.b_canvas.create_image(x_coord,y_coord,image=img_file)
         
-    def hl_square(self,x,y):
-        self.hl_squares.append(self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill="red",stipple="gray25"))
+    def hl_square(self,x,y,color):
+        self.hl_list.append(self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill=color,stipple="gray25"))
         #fer dank in range(dayz)
     def movePiece(self, piece, (x,y)):
         self.b_canvas.coords(piece, (self.sidel/2+self.sidel*x,self.sidel/2+self.sidel*y))
@@ -103,9 +106,9 @@ class GUIBoard(Tk):
     def hl_squares(self,squares_list):
         pass
                    
-    def del_hl_squares(self):
-        for square in range(len(self.hl_squares)):
-            self.b_canvas.delete(self.hl_squares.pop())
+    def del_hl_list(self):
+        for square in range(len(self.hl_list)):
+            self.b_canvas.delete(self.hl_list.pop())
 
 
             
@@ -115,8 +118,8 @@ if __name__ == "__main__":
     for i in range(6):
         b.add_piece(i,0,"w",PIECENAMES[i])
         b.add_piece(i,1,"b",PIECENAMES[i])
-    
-    b.del_hl_squares()
-    print b.hl_squares
+    b.hl_square(0,4,"red")
+    #b.del_hl_squares()
+    print b.hl_list
     mainloop()
 
