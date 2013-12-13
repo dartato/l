@@ -36,8 +36,6 @@ class GUIBoard(Tk):
                 if colorcounter%2 == 0:
                     self.b_canvas.create_rectangle(column*self.sidel,row*self.sidel,(column+1)*self.sidel,(row+1)*self.sidel,fill="gray")
                 colorcounter += 1
-        self.entryBox = Entry(self)
-        self.entryBox.pack()
         
     def assign_images(self):
         self.wpawn_img = PhotoImage(file="wpawn.gif")
@@ -98,8 +96,9 @@ class GUIBoard(Tk):
     def movePiece(self, piece, (x,y)):
         self.b_canvas.coords(piece, (self.sidel/2+self.sidel*x,self.sidel/2+self.sidel*y))
 
-    def hl_squares(self,squares_list):
-        pass
+    def hl_squares(self,squares_list, color):
+        for square in squares_list:
+            self.hl_square(square[0],square[1],color)
                    
     def del_hl_list(self):
         for square in range(len(self.hl_list)):
