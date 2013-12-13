@@ -18,22 +18,33 @@ class main:
             for piece in row:
                 if piece:
                     self.PIECES[piece] = self.gui_b.add_piece(piece.pos[1],piece.pos[0],piece.color,piece.type)
-        #add the submit move button
-        self.submitButton = Button(self.gui_b,text="Move", command=self.updateBoard)
-        self.submitButton.pack()
         #start it up!
         self.gui_b.mainloop()
         
     def get_click(self,click):
-        self.poss_move.append((click.x//self.gui_b.sidel,click.y//self.gui_b.sidel))
-        print self.poss_move
+        x,y = click.x//self.gui_b.sidel,click.y//self.gui_b.sidel
+        self.poss_move.append((x,y))
         if len(self.poss_move) == 2:
-            self.movePiece(self.poss_move[0],self.poss_move.pop())
+            #test to see if the move is in the legal moves of the piece (this part is very bracket)
+            if self.poss_move[1] in self.mainBoard[self.poss_move[0][1]][self.poss_move[0][0]].legalMoves():
+                self.movePiece(self.poss_move[0],self.poss_move[1])
+                self.gui_b.del_hl_list()
+                self.poss_move = []
+            #test if user wants to cancel move
+            elif self.poss_move[1]==self.poss_move[0]:
+                self.gui_b.del_hl_list()
+                self.poss_move = []
+            else:
+                self.poss_move.pop()
+        #highlight possible moves on selected piece and check to make sure that selecting a non-empty square
+        elif len(self.poss_move) == 1 and self.mainBoard[y][x]:
             self.gui_b.del_hl_list()
-            self.poss_move = []
+            self.gui_b.hl_squares(self.mainBoard[y][x].legalMoves(), "green")
+            self.gui_b.hl_square(click.x//self.gui_b.sidel,click.y//self.gui_b.sidel,"blue")
+        #if a none-square is clicked, and not second, reset everything
         else:
             self.gui_b.del_hl_list()
-            self.gui_b.hl_square(click.x//self.gui_b.sidel,click.y//self.gui_b.sidel,"blue")
+            self.poss_move = []
         
           
     def movePiece(self, (x1,y1), (x2,y2)):
@@ -45,22 +56,6 @@ class main:
             self.gui_b.movePiece(self.PIECES[piece],(x2,y2))
             return True
         
-    def updateBoard(self):
-        #get the contents of the move box
-        move = self.gui_b.entryBox.get()
-        #format is initial x,initial y,final x,final y
-        moves = move.split(',')
-        for i, guy in enumerate(moves):
-            moves[i] = int(guy)
-        i_x,i_y,f_x,f_y = moves
-        print(i_x,i_y,f_x,f_y)
-
-        if move == "dank":
-                self.movePiece((0,0),(0,1))
-        else:
-            self.movePiece((i_x,i_y),(f_x,f_y))
-        Board.pprint(self.mainBoard)
-        #clear the text box
-        self.gui_b.entryBox.delete(0,'end')    
+   
 if __name__ == "__main__":
     m = main()
