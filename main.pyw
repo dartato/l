@@ -31,21 +31,20 @@ class main:
                 self.gui_b.del_hl_list()
                 self.poss_move = []
             #test if user wants to cancel move
-            elif self.poss_move[1]==self.poss_move[0]:
+            else:
                 self.gui_b.del_hl_list()
                 self.poss_move = []
-            else:
-                self.poss_move.pop()
         #highlight possible moves on selected piece and check to make sure that selecting a non-empty square
         elif len(self.poss_move) == 1 and self.mainBoard[y][x]:
             self.gui_b.del_hl_list()
             self.gui_b.hl_squares(self.mainBoard[y][x].legalMoves(), "green")
-            self.gui_b.hl_square(click.x//self.gui_b.sidel,click.y//self.gui_b.sidel,"blue")
+            self.gui_b.hl_square(x,y,"blue")
+            
         #if a none-square is clicked, and not second, reset everything
         else:
             self.gui_b.del_hl_list()
             self.poss_move = []
-        
+        print self.gui_b.hl_list
           
     def movePiece(self, (x1,y1), (x2,y2)):
         #how to move a piece:
