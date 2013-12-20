@@ -141,7 +141,12 @@ class pawn(piece):
                     break
         moves+=hout+vout
         return moves
-                
+    
+    def legalTakes(self):
+        takes = []
+        #billy this is where you put all the fancy shit, get to it
+        return takes
+        
 class king(pawn,piece):
     def __init__(self, x, y, color, board):
         piece.__init__(self, x, y, color, board, name="king")
@@ -180,3 +185,8 @@ class king(pawn,piece):
                     break
         moves+=hout+vout
         return moves
+    
+    def legalTakes(self):
+        takes = []
+        #almost there, keep cranking out that fancy shit
+        return takes
