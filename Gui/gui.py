@@ -9,6 +9,7 @@ class GUIBoard(Tk):
         Tk.__init__(self)
         self.wm_title(name),self.resizable(0,0)
         self.hl_list = []
+        self.gui_pieces = {}
         self.b_width,self.b_height = b_width,b_height
         self.get_dims()
         self.draw_board()
@@ -88,14 +89,24 @@ class GUIBoard(Tk):
         img_file = self.get_piece_img(color,name)        
         x_coord = self.sidel/2 + self.sidel*x
         y_coord = self.sidel/2 + self.sidel*y
-        return self.b_canvas.create_image(x_coord,y_coord,image=img_file)
+        #creates a running dictionary of pieces on the gui, accessible by a tuple of their coords
+        self.gui_pieces[(x,y)] = self.b_canvas.create_image(x_coord,y_coord,image=img_file)
+        return self.gui_pieces[(x,y)]
+
+    def del_piece(self,x,y):
+        self.b_canvas.delete(self.gui_pieces[(x,y)])
         
     def hl_square(self,x,y,color):
         self.hl_list.append(self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill=color,stipple="gray25"))
         #fer dank in range(dayz)
+
     def movePiece(self, piece, (x,y)):
         self.b_canvas.coords(piece, (self.sidel/2+self.sidel*x,self.sidel/2+self.sidel*y))
 
+    def take(self, piece, (x,y)):
+        self.del_piece(x,y)
+        self.movePiece(self, piece, (x,y))
+        
     def hl_squares(self,squares_list, color):
         for square in squares_list:
             self.hl_square(square[0],square[1],color)
@@ -113,7 +124,8 @@ if __name__ == "__main__":
         b.add_piece(i,0,"w",PIECENAMES[i])
         b.add_piece(i,1,"b",PIECENAMES[i])
     b.hl_square(0,4,"red")
-    #b.del_hl_squares()
+    b.del_hl_list()
     print b.hl_list
+    b.del_piece(1,0)
     mainloop()
 
