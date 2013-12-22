@@ -30,10 +30,6 @@ class main:
                 self.movePiece(self.poss_move[0],self.poss_move[1])
                 self.gui_b.del_hl_list()
                 self.poss_move = []
-            elif self.poss_move[1] in self.mainBoard[self.poss_move[0][1]][self.poss_move[0][0]].legalTakes():
-                self.take(self.poss_move[0],self.poss_move[1])
-                self.gui_b.del_hl_list()
-                self.poss_move = []
             #test if user wants to cancel move
             else:
                 self.gui_b.del_hl_list()
@@ -42,7 +38,6 @@ class main:
         elif len(self.poss_move) == 1 and self.mainBoard[y][x]:
             self.gui_b.del_hl_list()
             self.gui_b.hl_squares(self.mainBoard[y][x].legalMoves(), "green")
-            self.gui_b.hl_squares(self.mainBoard[y][x].legalTakes(), "red")
             self.gui_b.hl_square(x,y,"blue")
             
         #if a none-square is clicked, and not second, reset everything
@@ -51,7 +46,7 @@ class main:
             self.poss_move = []
         print self.gui_b.hl_list
           
-    def movePiece(self,(x1,y1),(x2,y2)):
+    def movePiece(self, (x1,y1), (x2,y2)):
         #how to move a piece:
         piece = self.mainBoard[y1][x1]
         #move the piece internally (this will throw an error if piece cannot be moved there)
@@ -59,10 +54,6 @@ class main:
             #move the piece on the gui
             self.gui_b.movePiece(self.PIECES[piece],(x2,y2))
             return True
-        
-    def take(self,(x1,y1),(x2,y2)):
-        self.mainBoard.take((y1,x1), (y2,x2))
-        self.gui_b.take((x1,y1),(x2,y2))
         
    
 if __name__ == "__main__":
