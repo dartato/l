@@ -8,6 +8,7 @@ class main:
     def __init__(self):
         #create board instance
         self.mainBoard = Board.init()
+        self.gameover = False
         #initiate gui
         self.gui_b = gui.GUIBoard(self.mainBoard.cols,self.mainBoard.rows,name="Latrin Culi")
         self.poss_move = []
@@ -48,45 +49,76 @@ class main:
         else:
             self.gui_b.del_hl_list()
             self.poss_move = []
-        print self.gui_b.hl_list
+        if self.gameover:
+            self.gui_b.destroy()
         
     def list_takes(self,(x,y)):
         imm_deaths = []
-        if x > 0 and self.mainBoard[y][x-1]:
-            if self.check_willdie(x-1,y):
-                imm_deaths.append((x-1,y))
-        elif x < 11 and self.mainBoard[y][x+1]:
-            if self.check_willdie(x+1,y):
-                imm_deaths.append((x+1,y))
-        elif y > 0 and self.mainBoard[y-1][x]:
-            if self.check_willdie(x,y-1):
-                imm_deaths.append((x,y-1))
-        elif y < 11 and self.mainBoard[y+1][x]:
-            if self.check_willdie(x,y+1):
-                imm_deaths.append((x,y+1))
+        if x > 0:
+            if self.mainBoard[y][x-1]:
+                if self.check_willdie(x-1,y):
+                    imm_deaths.append((x-1,y))
+        if x < 11:
+             if self.mainBoard[y][x+1]:
+                if self.check_willdie(x+1,y):
+                    imm_deaths.append((x+1,y))
+        if y > 0:
+            if self.mainBoard[y-1][x]:
+                if self.check_willdie(x,y-1):
+                    imm_deaths.append((x,y-1))
+        if y < 7:
+            if self.mainBoard[y+1][x]:
+                if self.check_willdie(x,y+1):
+                    imm_deaths.append((x,y+1))
         
         return imm_deaths
 
     def check_willdie(self,x,y):
         color = self.mainBoard[y][x].color
         attackers = []
+        if self.isSafe(x,y,color):
+            return False
         if y > 0 and self.mainBoard[y-1][x]:
             if self.mainBoard[y-1][x].color != color:
                 attackers.append(self.mainBoard[y-1][x])
-        elif y < 7 and self.mainBoard[y+1][x]:
+        if y < 7 and self.mainBoard[y+1][x]:
             if self.mainBoard[y+1][x].color != color:
                 attackers.append(self.mainBoard[y+1][x])
-        elif x > 0 and self.mainBoard[y][x-1]:
+        if x > 0 and self.mainBoard[y][x-1]:
             if self.mainBoard[y][x-1].color != color:
                 attackers.append(self.mainBoard[y][x-1])
-        elif x < 11 and self.mainBoard[y][x+1]:
+        if x < 11 and self.mainBoard[y][x+1]:
             if self.mainBoard[y][x+1].color != color:
                 attackers.append(self.mainBoard[y][x+1])
         if self.currmovingpiece in attackers:
             del attackers[attackers.index(self.currmovingpiece)]
         if len(attackers) > 0 and self.currmovingpiece.color != color:
             return True
+    def isSafe(self,x,y,color):
+        safe = 0
+        if y > 0 and x > 0:
+            if self.mainBoard[y-1][x-1]:
+                if self.mainBoard[y-1][x-1].color == color:
+                    safe += 1
         
+        if y > 0 and x < 11:
+            if self.mainBoard[y-1][x+1]:
+                if self.mainBoard[y-1][x+1].color == color:
+                    safe += 4
+
+        if y < 7 and x > 0:
+            if self.mainBoard[y+1][x-1]:
+                if self.mainBoard[y+1][x-1].color == color:
+                    safe += 4
+
+        if y < 7 and x < 11:
+            if self.mainBoard[y+1][x+1]:
+                if self.mainBoard[y+1][x+1].color == color:
+                    safe += 1
+        if safe == 2 or safe > 6:
+            return True
+
+            
     def movePiece(self, (x1,y1), (x2,y2)):
         #how to move a piece:
         piece = self.mainBoard[y1][x1]
@@ -94,6 +126,17 @@ class main:
         if self.mainBoard.movePiece((y1,x1), (y2,x2)):
             #move the piece on the gui
             self.gui_b.movePiece(self.PIECES[piece],(x2,y2))
+            #check if taking a piece
+            for take in self.list_takes((x2,y2)):
+                #remove piece on gui
+                self.gui_b.del_piece(self.PIECES.pop(self.mainBoard[take[1]][take[0]]))
+                #remove piece on board
+                piecetype = self.mainBoard.killPiece(take)
+                print "Piece taken: "+piecetype
+                if piecetype == "king":
+                    print "Game over"
+                    self.gameover = True
+                    
             return True
         
    

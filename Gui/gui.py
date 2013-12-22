@@ -9,7 +9,6 @@ class GUIBoard(Tk):
         Tk.__init__(self)
         self.wm_title(name),self.resizable(0,0)
         self.hl_list = []
-        self.gui_pieces = {}
         self.b_width,self.b_height = b_width,b_height
         self.get_dims()
         self.draw_board()
@@ -90,11 +89,11 @@ class GUIBoard(Tk):
         x_coord = self.sidel/2 + self.sidel*x
         y_coord = self.sidel/2 + self.sidel*y
         #creates a running dictionary of pieces on the gui, accessible by a tuple of their coords
-        self.gui_pieces[(x,y)] = self.b_canvas.create_image(x_coord,y_coord,image=img_file)
-        return self.gui_pieces[(x,y)]
+        return self.b_canvas.create_image(x_coord,y_coord,image=img_file)
 
-    def del_piece(self,x,y):
-        self.b_canvas.delete(self.gui_pieces[(x,y)])
+
+    def del_piece(self,piece):
+        self.b_canvas.delete(piece)
         
     def hl_square(self,x,y,color):
         self.hl_list.append(self.b_canvas.create_rectangle(x*self.sidel,y*self.sidel,(x+1)*self.sidel,(y+1)*self.sidel,fill=color,stipple="gray25"))
