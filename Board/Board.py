@@ -19,6 +19,13 @@ class board(matrix):
             self[x1][y1].pos = x2,y2
         self[x1][y1] = None
         return True
+    def killPiece(self,(y,x)):
+        if not self[x][y]:
+            return False
+        else:
+            piecetype = self[x][y].type
+            self[x][y] = None
+            return piecetype
 def pprint(board_obj):
     print " |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  | 10  | 11  "
     for i, row in enumerate(board_obj):
