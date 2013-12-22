@@ -37,15 +37,56 @@ class main:
         #highlight possible moves on selected piece and check to make sure that selecting a non-empty square
         elif len(self.poss_move) == 1 and self.mainBoard[y][x]:
             self.gui_b.del_hl_list()
-            self.gui_b.hl_squares(self.mainBoard[y][x].legalMoves(), "green")
+            self.currmovingpiece = self.mainBoard[y][x]
+            for move in self.mainBoard[y][x].legalMoves():
+                self.gui_b.hl_square(move[0],move[1], "green")
+                self.gui_b.hl_squares(self.list_takes(move), "red")
             self.gui_b.hl_square(x,y,"blue")
+            self.gui_b.hl_squares(self.list_takes((x,y)),"red")
             
         #if a none-square is clicked, and not second, reset everything
         else:
             self.gui_b.del_hl_list()
             self.poss_move = []
         print self.gui_b.hl_list
-          
+        
+    def list_takes(self,(x,y)):
+        imm_deaths = []
+        if x > 0 and self.mainBoard[y][x-1]:
+            if self.check_willdie(x-1,y):
+                imm_deaths.append((x-1,y))
+        elif x < 11 and self.mainBoard[y][x+1]:
+            if self.check_willdie(x+1,y):
+                imm_deaths.append((x+1,y))
+        elif y > 0 and self.mainBoard[y-1][x]:
+            if self.check_willdie(x,y-1):
+                imm_deaths.append((x,y-1))
+        elif y < 11 and self.mainBoard[y+1][x]:
+            if self.check_willdie(x,y+1):
+                imm_deaths.append((x,y+1))
+        
+        return imm_deaths
+
+    def check_willdie(self,x,y):
+        color = self.mainBoard[y][x].color
+        attackers = []
+        if y > 0 and self.mainBoard[y-1][x]:
+            if self.mainBoard[y-1][x].color != color:
+                attackers.append(self.mainBoard[y-1][x])
+        elif y < 7 and self.mainBoard[y+1][x]:
+            if self.mainBoard[y+1][x].color != color:
+                attackers.append(self.mainBoard[y+1][x])
+        elif x > 0 and self.mainBoard[y][x-1]:
+            if self.mainBoard[y][x-1].color != color:
+                attackers.append(self.mainBoard[y][x-1])
+        elif x < 11 and self.mainBoard[y][x+1]:
+            if self.mainBoard[y][x+1].color != color:
+                attackers.append(self.mainBoard[y][x+1])
+        if self.currmovingpiece in attackers:
+            del attackers[attackers.index(self.currmovingpiece)]
+        if len(attackers) > 0 and self.currmovingpiece.color != color:
+            return True
+        
     def movePiece(self, (x1,y1), (x2,y2)):
         #how to move a piece:
         piece = self.mainBoard[y1][x1]
