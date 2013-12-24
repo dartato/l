@@ -18,7 +18,7 @@ class main:
         for row in self.mainBoard:
             for piece in row:
                 if piece:
-                    self.PIECES[piece] = self.gui_b.add_piece(piece.pos[1],piece.pos[0],piece.color,piece.type)
+                    self.PIECES[piece] = self.gui_b.add_piece(piece.pos[1],piece.pos[0],piece.color+piece.type)
         #start it up!
         self.gui_b.mainloop()
         

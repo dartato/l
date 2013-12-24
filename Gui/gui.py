@@ -36,7 +36,8 @@ class GUIBoard(Tk):
                 colorcounter += 1
 
     def add_piece(self,x,y,piece_type):
-        self.LOADED_IMAGES[piece_type] = PhotoImage(file=piece_type + ".gif")        
+        if not piece_type in self.LOADED_IMAGES:
+            self.LOADED_IMAGES[piece_type] = PhotoImage(file=piece_type + ".gif")
         x_coord = self.sidel/2 + self.sidel*x
         y_coord = self.sidel/2 + self.sidel*y
         return self.b_canvas.create_image(x_coord,y_coord,image=self.LOADED_IMAGES[piece_type])
