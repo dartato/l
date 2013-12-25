@@ -29,7 +29,11 @@ class main:
         if len(self.poss_move) == 2:
             #test to see if the move is in the legal moves of the piece (this part is very bracket)
             if self.poss_move[1] in self.mainBoard[self.poss_move[0][1]][self.poss_move[0][0]].legalMoves():
-                self.movePiece(self.poss_move[0],self.poss_move[1])
+                if self.poss_move[0] != self.poss_move[1]:
+                    self.movePiece(self.poss_move[0],self.poss_move[1])
+                    self.gui_b.del_hl_list()
+                    self.poss_move = []
+                    self.turn += 1
                 self.gui_b.del_hl_list()
                 self.poss_move = []
             #test if user wants to cancel move
@@ -39,9 +43,11 @@ class main:
         #highlight possible moves on selected piece and check to make sure that selecting a non-empty square
         elif len(self.poss_move) == 1 and self.mainBoard[y][x]:
             if self.mainBoard[y][x].color == "b" and self.turn%2==0:
-                return False
+                self.poss_move = []
+                return
             elif self.mainBoard[y][x].color == "w" and self.turn%2==1:
-                return False
+                self.poss_move = []
+                return
             self.gui_b.del_hl_list()
             self.currmovingpiece = self.mainBoard[y][x]
             for move in self.mainBoard[y][x].legalMoves():
