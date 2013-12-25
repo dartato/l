@@ -63,7 +63,7 @@ class main:
             self.currmovingpiece = self.mainBoard[y][x]
             for move in self.mainBoard[y][x].legalMoves():
                 self.gui_b.hl_square(move[0],move[1], "green")
-                self.gui_b.hl_squares(self.list_takes(move), "red")
+                self.gui_b.hl_squares(self.list_takes(move),"red")
             self.gui_b.hl_square(x,y,"blue")
             self.gui_b.hl_squares(self.list_takes((x,y)),"red")
             
@@ -150,15 +150,16 @@ class main:
             #move the piece on the gui
             self.gui_b.movePiece(self.PIECES[piece],(x2,y2))
             #check if taking a piece
-            for take in self.list_takes((x2,y2)):
-                #remove piece on gui
-                self.gui_b.del_piece(self.PIECES.pop(self.mainBoard[take[1]][take[0]]))
-                #remove piece on board
-                piecetype = self.mainBoard.killPiece(take)
-                print "Piece taken: "+piecetype
-                if piecetype == "king":
-                    print "Game over"
-                    self.gameover = True
+            if abs(x1-x2)<=1 and abs(y1-y2)<=1:
+                for take in self.list_takes((x2,y2)):
+                    #remove piece on gui
+                    self.gui_b.del_piece(self.PIECES.pop(self.mainBoard[take[1]][take[0]]))
+                    #remove piece on board
+                    piecetype = self.mainBoard.killPiece(take)
+                    print "Piece taken: "+piecetype
+                    if piecetype == "king":
+                        print "Game over"
+                        self.gameover = True
                     
             return True
         
