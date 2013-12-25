@@ -2,6 +2,42 @@ from Tkinter import *
 from PIL import Image, ImageTk
 PIECENAMES = ("pawn","bishop","knight","rook","queen","king")
 PIECECOLORS = ('w','b')
+GAMES = {}
+GAMES["Latrinculi"],GAMES["Checkers"],GAMES["Chess"] = (12,8),(8,8),(8,8)
+
+class GUIMenu(Tk):
+    def __init__(self,game_options=GAMES,name="Main Menu"):
+        Tk.__init__(self)
+        self.wm_title(name),self.resizable(0,0)
+        self.buttons = {}
+        self.is_done = False
+        for game in game_options:
+            self.buttons[game] = Button(text=game)
+            self.buttons[game].grid()
+        self.buttons["Latrinculi"]["command"]=self.make_latrinculi
+        self.buttons["Checkers"]["command"]=self.make_checkers
+        self.buttons["Chess"]["command"]=self.make_chess
+        self.buttons["Quit?"] = Button(text="Quit?",command=self.die).grid()
+        mainloop()
+        
+    def make_latrinculi(self):
+        lc = GUIBoard(12,8,name="Latrinculi")
+        global lc
+        self.die()
+    def make_chess(self):
+        chess = GUIBoard(8,8,name="Chess")
+        global chess
+        self.die()
+    def make_checkers(self):
+        checkers = GUIBoard(8,8,name="Checkers")
+        global checkers
+        self.die()
+
+    def die(self):
+        self.is_done = True
+        self.destroy()
+        
+        
 class GUIBoard(Tk):
     
     def __init__(self,b_width,b_height,name="Checker Board"):
@@ -23,7 +59,7 @@ class GUIBoard(Tk):
         #final dimensions
         self.gui_height,self.gui_width = self.sidel*self.b_height,self.sidel*self.b_width
         
-    def draw_board(self): 
+    def draw_board(self):
         self.b_canvas = Canvas(self, width=self.gui_width, height=self.gui_height)
         self.b_canvas.pack()
         colorcounter=0
@@ -34,6 +70,7 @@ class GUIBoard(Tk):
                 if colorcounter%2 == 0:
                     self.b_canvas.create_rectangle(column*self.sidel,row*self.sidel,(column+1)*self.sidel,(row+1)*self.sidel,fill="gray")
                 colorcounter += 1
+        return True
 
     def add_piece(self,x,y,piece_type):
         if not piece_type in self.LOADED_IMAGES:
@@ -62,12 +99,7 @@ class GUIBoard(Tk):
 
 if __name__ == "__main__":
     #testing recent additions
-    b = GUIBoard(12,8)
-    for i in range(6):
-        b.add_piece(i,0,"w"+PIECENAMES[i])
-        b.add_piece(i,1,"b"+PIECENAMES[i])
-    b.hl_square(0,4,"red")
-    b.del_hl_list()
-    print b.hl_list
-    mainloop()
+    #b = GUIBoard(8,8)
+    m = GUIMenu()
+    
 
