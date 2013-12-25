@@ -9,6 +9,7 @@ class main:
         #create board instance
         self.mainBoard = Board.init()
         self.gameover = False
+        self.turn = 0
         #initiate gui
         self.gui_b = gui.GUIBoard(self.mainBoard.cols,self.mainBoard.rows,name="Latrin Culi")
         self.poss_move = []
@@ -21,7 +22,7 @@ class main:
                     self.PIECES[piece] = self.gui_b.add_piece(piece.pos[1],piece.pos[0],piece.color+piece.type)
         #start it up!
         self.gui_b.mainloop()
-        
+    
     def get_click(self,click):
         x,y = click.x//self.gui_b.sidel,click.y//self.gui_b.sidel
         self.poss_move.append((x,y))
@@ -37,6 +38,10 @@ class main:
                 self.poss_move = []
         #highlight possible moves on selected piece and check to make sure that selecting a non-empty square
         elif len(self.poss_move) == 1 and self.mainBoard[y][x]:
+            if self.mainBoard[y][x].color == "b" and self.turn%2==0:
+                return False
+            elif self.mainBoard[y][x].color == "w" and self.turn%2==1:
+                return False
             self.gui_b.del_hl_list()
             self.currmovingpiece = self.mainBoard[y][x]
             for move in self.mainBoard[y][x].legalMoves():
