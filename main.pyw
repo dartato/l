@@ -1,6 +1,6 @@
 import Board.Board as Board
 import Board.Pieces as Pieces
-from Tkinter import Button
+from Tkinter import *
 from Board.Board import pprint
 import Gui.gui as gui
 
@@ -20,8 +20,18 @@ class main:
             for piece in row:
                 if piece:
                     self.PIECES[piece] = self.gui_b.add_piece(piece.pos[1],piece.pos[0],piece.color+piece.type)
+        #add turn indicator
+        self.turn_text = StringVar()
+        self.turn_text.set("White Move")
+        self.turn_label = Label(textvariable=self.turn_text).pack()
         #start it up!
         self.gui_b.mainloop()
+
+    def upd_turn_label(self):
+        if self.turn%2 == 0:
+            self.turn_text.set("White Move")
+        elif self.turn%2 == 1:
+            self.turn_text.set("Black Move")
     
     def get_click(self,click):
         x,y = click.x//self.gui_b.sidel,click.y//self.gui_b.sidel
@@ -34,6 +44,7 @@ class main:
                     self.gui_b.del_hl_list()
                     self.poss_move = []
                     self.turn += 1
+                    self.upd_turn_label()
                 self.gui_b.del_hl_list()
                 self.poss_move = []
             #test if user wants to cancel move
@@ -105,6 +116,7 @@ class main:
             del attackers[attackers.index(self.currmovingpiece)]
         if len(attackers) > 0 and self.currmovingpiece.color != color:
             return True
+        
     def isSafe(self,x,y,color):
         safe = 0
         if y > 0 and x > 0:
